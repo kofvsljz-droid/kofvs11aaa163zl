@@ -1,0 +1,115 @@
+mixed-port: 7890
+allow-lan: true
+mode: Rule
+log-level: info
+
+proxies:
+
+  - name: 🇺🇸 美国01
+    type: mieru
+    server: testus.cdnazuremicrosoft.com
+    port: 443
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇺🇸 美国02
+    type: mieru
+    server: box.us.cdnazuremicrosoft.com
+    port: 443
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇺🇸 美国03
+    type: mieru
+    server: us.m.cdnazuremicrosoft.com
+    port: 443
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇭🇰 香港01
+    type: mieru
+    server: hk.cdn.games.cdnazuremicrosoft.com
+    port: 443
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇭🇰 香港02
+    type: mieru
+    server: boxhk.cdnazuremicrosoft.com
+    port: 65535
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇭🇰 香港03
+    type: mieru
+    server: hk.box.cdnazuremicrosoft.com
+    port: 8443
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇯🇵 日本01
+    type: mieru
+    server: jp1.cdn.games.cdnazuremicrosoft.com
+    port: 3389
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+  - name: 🇸🇬 新加坡01
+    type: mieru
+    server: sg.index.cdnazuremicrosoft.com
+    port: 443
+    username: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    password: 5612e775-fc3c-4ade-92d2-67c2609b92be
+    transport: TCP
+    udp: true
+
+
+proxy-groups:
+
+  - name: 🚀 自动测速
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies:
+      - 🇭🇰 香港01
+      - 🇭🇰 香港02
+      - 🇭🇰 香港03
+      - 🇯🇵 日本01
+      - 🇸🇬 新加坡01
+      - 🇺🇸 美国01
+      - 🇺🇸 美国02
+      - 🇺🇸 美国03
+
+
+  - name: 🌍 节点选择
+    type: select
+    proxies:
+      - 🚀 自动测速
+      - 🇭🇰 香港01
+      - 🇭🇰 香港02
+      - 🇭🇰 香港03
+      - 🇯🇵 日本01
+      - 🇸🇬 新加坡01
+      - 🇺🇸 美国01
+      - 🇺🇸 美国02
+      - 🇺🇸 美国03
+
+
+rules:
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍 节点选择
